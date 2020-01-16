@@ -1,0 +1,143 @@
+@startuml
+
+title __CARDREADER.PROVIDER.NFC's Class Diagram__\n
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    class de.gematik.ti.cardreader.provider.nfc.BuildConfig {
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcCardChecker {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderProvider {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcReceiver {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCard {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      class de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging {
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.DataObject {
+        }
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.LengthObject {
+        }
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.MacObject {
+        }
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.StatusObject {
+        }
+      }
+    }
+  }
+  
+
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController -up-|> de.gematik.ti.openhealthcard.common.AbstractAndroidCardReaderController
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController o-- de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController.NfcActivityLifecycleCallback : activityLifecycleCallback
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader : nfcCardReader
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController o-- de.gematik.ti.cardreader.provider.nfc.control.NfcReceiver : nfcReceiver
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderProvider .up.|> de.gematik.ti.cardreader.provider.spi.ICardReaderControllerProvider
+  de.gematik.ti.cardreader.provider.nfc.control.NfcReceiver -up-|> android.content.BroadcastReceiver
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard .up.|> de.gematik.ti.cardreader.provider.api.card.ICard
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel : basicChannel
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard.ICardPresentCallBack : presentCallBack
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel .up.|> de.gematik.ti.cardreader.provider.api.card.ICardChannel
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard : nfcCard
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel o-- de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging : secureMessaging
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader .up.|> android.nfc.NfcAdapter.OnTagRemovedListener
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader .up.|> android.nfc.NfcAdapter.ReaderCallback
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader .up.|> de.gematik.ti.cardreader.provider.api.ICardReader
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader.NfcActivityLifecycleCallback : activityLifecycleCallback
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard : nfcCard
+  de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging o-- de.gematik.ti.cardreader.provider.nfc.security.tagobjects.MacObject : commandMacObject
+  de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging o-- de.gematik.ti.cardreader.provider.nfc.security.tagobjects.MacObject : responseMacObject
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

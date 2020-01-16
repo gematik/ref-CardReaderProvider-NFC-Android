@@ -1,0 +1,104 @@
+@startuml
+
+
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcCardChecker {
+          {static} - LOG : Logger
+          {static} - TIMEOUT : int
+          - active : boolean
+          - cardEventTransmitter : CardEventTransmitter
+          - cardReader : ICardReader
+          - currentCardState : boolean
+          + NfcCardChecker()
+          + run()
+          + shutdown()
+          - checkCardStateAndSendEvent()
+          - isCardPresent()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController {
+          {static} - LOG : Logger
+          - cardCheckerMap : Map<ICardReader, NfcCardChecker>
+          - cardReaders : ArrayList<ICardReader>
+          - context : Context
+          - initialized : boolean
+          {static} - instance : NfcCardReaderController
+          - nfcAdapter : NfcAdapter
+          - nfcManager : NfcManager
+          + getCardReaders()
+          {static} + getInstance()
+          ~ setReaderOffline()
+          ~ setReaderOnline()
+          - NfcCardReaderController()
+          - createOrUpdateCardReader()
+          - init()
+          - initNfcReceiver()
+          - initializeController()
+          - stopPreciseTerminalCardChecker()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController.NfcActivityLifecycleCallback {
+          + onActivityCreated()
+          + onActivityDestroyed()
+          + onActivityPaused()
+          + onActivityResumed()
+          + onActivitySaveInstanceState()
+          + onActivityStarted()
+          + onActivityStopped()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderProvider {
+          - providerDescriptor : ProviderDescriptor
+          + NfcCardReaderProvider()
+          + getCardReaderController()
+          + getDescriptor()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace control {
+      class de.gematik.ti.cardreader.provider.nfc.control.NfcReceiver {
+          {static} - LOG : Logger
+          + onReceive()
+      }
+    }
+  }
+  
+
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController -up-|> de.gematik.ti.openhealthcard.common.AbstractAndroidCardReaderController
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController o-- de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController.NfcActivityLifecycleCallback : activityLifecycleCallback
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader : nfcCardReader
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController o-- de.gematik.ti.cardreader.provider.nfc.control.NfcReceiver : nfcReceiver
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController +-down- de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController.NfcActivityLifecycleCallback
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderController.NfcActivityLifecycleCallback .up.|> android.app.Application.ActivityLifecycleCallbacks
+  de.gematik.ti.cardreader.provider.nfc.control.NfcCardReaderProvider .up.|> de.gematik.ti.cardreader.provider.spi.ICardReaderControllerProvider
+  de.gematik.ti.cardreader.provider.nfc.control.NfcReceiver -up-|> android.content.BroadcastReceiver
+
+
+
+
+
+
+
+
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+
+
+    package de.gematik.ti.cardreader.provider.nfc.entities {
+      class NfcCard {
+                {static} - LOG : Logger
+                - isoDep : IsoDep
+                {static} - MANAGE_CHANNEL_COMMAND_OPEN : CommandAPDU
+                {static} - MANAGE_CHANNEL_COMMAND_CLOSE : CommandAPDU
+                {static} - RESPONSE_SUCCESS : int
+                {static} # PROTO_T_1 : String
+                - exclusiveThread : Thread
+                - isExtendedLengthApduSupported : boolean
+                + NfcCard()
+                + getATR()
+                + getProtocol()
+                + getBasicChannel()
+                + openLogicalChannel()
+                + beginExclusive()
+                + endExclusive()
+                + transmitControlCommand()
+                # transceive()
+                + disconnect()
+                + isCardPresent()
+                + isExtendedLengthApduSupported()
+                + checkCardOpen()
+                ~ checkExclusive()
+      }
+    }
+
+  NfcCard -up-|> Card
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+
+  package de.gematik.ti.cardreader.provider.nfc {
+    package de.gematik.ti.cardreader.provider.nfc.control {
+      class NfcCardChecker {
+          {static} - LOG : Logger
+          - cardReader : ICardReader
+          - active : boolean
+          {static} - TIMEOUT : int
+          - cardEventTransmitter : CardEventTransmitter
+          - currentCardState : boolean
+          + NfcCardChecker()
+          + shutdown()
+          + run()
+          - checkCardStateAndSendEvent()
+          - isCardPresent()
+      }
+    }
+  }
+
+@enduml

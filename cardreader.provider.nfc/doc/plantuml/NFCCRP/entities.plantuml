@@ -1,0 +1,147 @@
+@startuml
+
+
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCard {
+          {static} - ISO_DEP_TIMEOUT : int
+          {static} - LOG : Logger
+          {static} - MANAGE_CHANNEL_COMMAND_CLOSE : CommandApdu
+          {static} - MANAGE_CHANNEL_COMMAND_OPEN : CommandApdu
+          {static} - RESPONSE_SUCCESS : int
+          - isExtendedLengthApduSupported : boolean
+          - isoDep : IsoDep
+          - paceKey : PaceKey
+          + NfcCard()
+          + disconnect()
+          + getATR()
+          + getPaceKey()
+          + getProtocol()
+          + isCardPresent()
+          + isExtendedLengthApduSupported()
+          + openBasicChannel()
+          + openLogicalChannel()
+          # transceive()
+          ~ checkCardOpen()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      interface de.gematik.ti.cardreader.provider.nfc.entities.NfcCard.ICardPresentCallBack {
+          {abstract} + inform()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCard.PaceKeyResponseListener {
+          + handlePaceKey()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel {
+          {static} - LOG : Logger
+          {static} - LOW_CHANNEL_NUMBER_VALUE : int
+          {static} - MANAGE_CHANNEL_COMMAND_CLOSE : CommandApdu
+          {static} - MAX_CHANNEL_NO_VALUE : int
+          {static} - RESPONSE_SUCCESS : int
+          - channelClosed : boolean
+          - channelNo : int
+          - isTrustedChannelEstablished : boolean
+          + close()
+          + getCard()
+          + getChannelNumber()
+          + getMaxMessageLength()
+          + getMaxResponseLength()
+          + isExtendedLengthSupported()
+          + setTrustedChannelEstablished()
+          + transmit()
+          ~ NfcCardChannel()
+          ~ NfcCardChannel()
+          ~ modifyCommandForLogicalChannel()
+          - checkChannelClosed()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader {
+          {static} - LOG : Logger
+          {static} - NAME : String
+          {static} - WAIT_FOR_CARDS : long
+          - adapter : NfcAdapter
+          - context : Context
+          - isInitialized : boolean
+          - isOnline : boolean
+          + NfcCardReader()
+          + connect()
+          + getName()
+          + initialize()
+          + isCardPresent()
+          + isInitialized()
+          + isOnline()
+          + onTagDiscovered()
+          + onTagRemoved()
+          + removeCard()
+          + setOnline()
+          + updateActivity()
+          + waitForCardAbsent()
+          + waitForCardPresent()
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace entities {
+      class de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader.NfcActivityLifecycleCallback {
+          + onActivityCreated()
+          + onActivityDestroyed()
+          + onActivityPaused()
+          + onActivityResumed()
+          + onActivitySaveInstanceState()
+          + onActivityStarted()
+          + onActivityStopped()
+      }
+    }
+  }
+  
+
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard .up.|> de.gematik.ti.cardreader.provider.api.card.ICard
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel : basicChannel
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard.ICardPresentCallBack : presentCallBack
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard +-down- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard.ICardPresentCallBack
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard +-down- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard.PaceKeyResponseListener
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCard.PaceKeyResponseListener .up.|> de.gematik.ti.openhealthcard.events.response.callbacks.IPaceKeyResponseListener
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel .up.|> de.gematik.ti.cardreader.provider.api.card.ICardChannel
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard : nfcCard
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardChannel o-- de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging : secureMessaging
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader .up.|> android.nfc.NfcAdapter.OnTagRemovedListener
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader .up.|> android.nfc.NfcAdapter.ReaderCallback
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader .up.|> de.gematik.ti.cardreader.provider.api.ICardReader
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader.NfcActivityLifecycleCallback : activityLifecycleCallback
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader o-- de.gematik.ti.cardreader.provider.nfc.entities.NfcCard : nfcCard
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader +-down- de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader.NfcActivityLifecycleCallback
+  de.gematik.ti.cardreader.provider.nfc.entities.NfcCardReader.NfcActivityLifecycleCallback .up.|> android.app.Application.ActivityLifecycleCallbacks
+
+
+
+
+
+
+
+
+
+@enduml

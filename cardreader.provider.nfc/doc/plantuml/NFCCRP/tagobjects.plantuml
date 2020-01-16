@@ -1,0 +1,87 @@
+@startuml
+
+
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.DataObject {
+            {static} - DO_81_EXTRACTED_TAG : int
+            {static} - DO_81_TAG : int
+            {static} - DO_87_TAG : int
+            - dataBytes : byte[]
+            - tag : int
+            + DataObject()
+            + DataObject()
+            + getTaggedObject()
+        }
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.LengthObject {
+            {static} - BYTE_MASK : int
+            {static} - BYTE_VALUE : int
+            {static} - DO_97_TAG : int
+            {static} - NULL : byte[]
+            - leData : byte[]
+            + LengthObject()
+            + getTaggedObject()
+        }
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.MacObject {
+            {static} - BLOCK_SIZE : int
+            {static} - DO_8E_TAG : int
+            {static} - MAC_SIZE : int
+            - dataOutput : ByteArrayOutputStream
+            - header : byte[]
+            - kMac : byte[]
+            - mac : byte[]
+            - ssc : byte[]
+            + MacObject()
+            + MacObject()
+            {static} + getCMac()
+            + getMac()
+            + getTaggedObject()
+            - calculateMac()
+        }
+      }
+    }
+  }
+  
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      namespace tagobjects {
+        class de.gematik.ti.cardreader.provider.nfc.security.tagobjects.StatusObject {
+            {static} - DO_99_TAG : int
+            - statusBytes : byte[]
+            + StatusObject()
+            + getTaggedObject()
+        }
+      }
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
+
+@enduml

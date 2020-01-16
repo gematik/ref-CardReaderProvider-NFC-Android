@@ -1,0 +1,14 @@
+@startuml
+
+    package de.gematik.ti.cardreader.provider.nfc.control {
+      class NfcCardReaderProvider {
+                - providerDescriptor : ProviderDescriptor
+                + NfcCardReaderProvider()
+                + getCardReaderController()
+                + getDescriptor()
+      }
+    }
+
+  NfcCardReaderProvider -up-|> ICardReaderControllerProvider
+
+@enduml

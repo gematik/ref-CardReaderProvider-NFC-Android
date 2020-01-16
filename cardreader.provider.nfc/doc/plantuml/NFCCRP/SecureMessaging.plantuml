@@ -1,0 +1,46 @@
+@startuml
+
+
+          package de.gematik.ti.cardreader.provider.nfc.security {
+            class SecureMessaging {
+                      {static} - LOG : Logger
+                      {static} - SECURE_MESSAGING_COMMAND : byte
+                      {static} - BLOCK_SIZE : int
+                      {static} - MAC_SIZE : int
+                      {static} - STATUS_SIZE : int
+                      {static} - MIN_RESPONSE_SIZE : int
+                      {static} - HEADER_SIZE : int
+                      {static} - ENCRYPT_MODE : int
+                      {static} - DECRYPT_MODE : int
+                      {static} - DO_87_TAG : int
+                      {static} - DO_99_TAG : int
+                      {static} - DO_8E_TAG : int
+                      {static} - LENGTH_TAG : int
+                      {static} - BYTE_MASK : int
+                      - secureMessagingSSC : byte[]
+                      - kEnc : byte[]
+                      - kMac : byte[]
+                      - le : int
+                      - header : byte[]
+                      - statusBytes : byte[]
+                      - dataBytes : byte[]
+                      - macBytes : byte[]
+                      + SecureMessaging()
+                      + encrypt()
+                      + decrypt()
+                      - incrementSSC()
+                      - checkCommandApduSize()
+                      - setSecureMessagingCommand()
+                      - createEncryptedCommand()
+                      - encryptData()
+                      - checkResponseApduSize()
+                      - getResponseObjects()
+                      - verifyMac()
+                      - createDecryptedResponse()
+                      - getCipher()
+                      - getCipherIV()
+                      - checkExpectedLength()
+                  }
+          }
+
+@enduml

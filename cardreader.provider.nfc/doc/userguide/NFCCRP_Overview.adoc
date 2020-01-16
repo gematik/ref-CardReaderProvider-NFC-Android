@@ -1,0 +1,297 @@
+include::config.adoc[]
+
+== Overview
+
+ifndef::useCachePlantuml[]
+
+.NfcCardReaderProvider
+[plantuml,NFCCRP/generated/overview,png,caption="{classdia-caption} {counter:class}: ",650]
+----
+include::{plantumldir}/NFCCRP/overview.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcCardReaderProvider
+image::NFCCRP/generated/overview.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+
+=== Integration
+
+The NFC CardReaderProvider needs a descriptor behind `YOUR.PROVIDER\src\main\resources\META-INF\services` with filename
+`de.gematik.ti.cardreader.provider.spi.ICardReaderControllerProvider` and the content of the package and class which implements the service provider interface
+`de.gematik.ti.cardreader.provider.usb.nfc.control.NfcCardReaderProvider`.
+
+== Hardware
+
+The NFC CardReaderProvider supports the integrating of smart card functionality using NFC.
+
+== Control
+
+ifndef::useCachePlantuml[]
+
+.Nfc Control
+[plantuml,NFCCRP/generated/control,png,caption="{classdia-caption} {counter:class}: ",650]
+----
+include::{plantumldir}/NFCCRP/control.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.Nfc Control
+image::NFCCRP/generated/control.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+
+=== NfcCardReaderProvider
+
+// tag::NfcCardReaderProvider[]
+
+The NfcCardReaderProvider class needs implementation of the interface 'ICardReaderControllerProvider' to handle listener and provide methods to inform connected listeners about card reader changes.
+ifndef::useCachePlantuml[]
+
+.NfcCardReaderProvider
+[plantuml,NFCCRP/generated/NfcCardReaderProvider,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/NfcCardReaderProvider.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcCardReaderProvider
+image::NFCCRP/generated/NfcCardReaderProvider.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+// end::NfcCardReaderProvider[]
+
+=== NfcCardReaderController
+
+// tag::NfcCardReaderController[]
+
+The NfcCardReaderController class extends the abstract class 'AbstractCardReaderController' to handle necessary permissions and checking if the application context is set.
+Returns a list with currently connected Tactivo cardReaders and informs about reader connection and disconnection.
+ifndef::useCachePlantuml[]
+
+.NfcCardReaderController
+[plantuml,NFCCRP/generated/NfcCardReaderController,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/NfcCardReaderController.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcCardReaderController
+image::NFCCRP/generated/NfcCardReaderController.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+// end::NfcCardReaderController[]
+
+=== NfcReceiver
+
+// tag::NfcReceiver[]
+
+The NfcReceiver class extends the BroadCastReceiver class that receives and handles broadcast intents sent by {@link android.content.Context#sendBroadcast(Intent)}.
+The actions of the intents that are being handled are changes in the state of the NFC adapter.
+
+ifndef::useCachePlantuml[]
+
+.NfcReceiver
+[plantuml,NFCCRP/generated/NfcCardChecker,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/NfcCardChecker.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcReceiver
+image::NFCCRP/generated/NfcCardChecker.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+// end::NfcReceiver[]
+
+=== NfcCardChecker
+
+// tag::NfcCardChecker[]
+
+The NfcCardChecker would automatically started for each connected NfcCardReader to monitor the current card status.
+This checker send Events on EventBus for each present or absent card.
+For triggering this changed would use the SmartCardIo methods `waitForCardAbsent` and `waitForCardPresent`.
+ifndef::useCachePlantuml[]
+
+.NfcCardChecker
+[plantuml,NFCCRP/generated/NfcCardChecker,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/NfcCardChecker.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcCardChecker
+image::NFCCRP/generated/NfcCardChecker.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+// end::NfcCardChecker[]
+
+== Entities
+
+ifndef::useCachePlantuml[]
+
+.Entities
+[plantuml,NFCCRP/generated/entities,png,caption="{classdia-caption} {counter:class}: ",650]
+----
+include::{plantumldir}/NFCCRP/entities.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.Entities
+image::NFCCRP/generated/entities.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+
+=== NfcCardReader
+
+// tag::NFCCardReader[]
+
+The NFC Smart Card Reader implements the Interface ICardReader.
+Works as Adapter to the Android NfcManager and uses the Android ReaderCallback from Android NfcAdapter to detect NFC SmartCards.
+ifndef::useCachePlantuml[]
+
+.NfcCardReader
+[plantuml,NFCCRP/generated/NfcCardReader,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/NfcCardReader.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcCardReader
+image::NFCCRP/generated/NfcCardReader.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+// end::NfcCardReader[]
+
+
+=== NfcCard
+
+// tag::NfcCard[]
+
+A Smart Card with which a connection has been established.
+NfcCard extends the abstract class Card.
+ifndef::useCachePlantuml[]
+
+.NfcCard
+[plantuml,NFCCRP/generated/NfcCard,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/NfcCard.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcCard
+image::NFCCRP/generated/NfcCard.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+
+// end::NfcCard[]
+
+
+=== NfcCardChannel
+
+// tag::NfcCardChannel[]
+
+A logical channel connection to a Smart Card.
+It is used to exchange APDUs with a Smart Card the NfcCardReader class.
+A NfcCardChannel object can be obtained by calling the method nfcCard.getBasicChannel() or NfcCard.openLogicalChannel().
+
+ifndef::useCachePlantuml[]
+
+.NfcCardChannel
+[plantuml,NFCCRP/generated/NfcCardChannel,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/NfcCardChannel.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcCardChannel
+image::NFCCRP/generated/NfcCardChannel.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+// end::NfcCardChannel[]
+
+== Security
+// tag::SecureMessaging[]
+
+Implements Secure Messaging for encrypting plain Command APDU and decrypting encrypted Response APDU.
+
+ifndef::useCachePlantuml[]
+
+.NfcSecureMessaging
+[plantuml,NFCCRP/generated/SecureMessaging,png,caption="{classdia-caption} {counter:class}: ",300]
+----
+include::{plantumldir}/NFCCRP/SecureMessaging.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.NfcSecureMessaging
+image::NFCCRP/generated/SecureMessaging.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+
+=== TagObjects
+
+ifndef::useCachePlantuml[]
+
+.TagObjects
+[plantuml,NFCCRP/generated/tagobjects,png,caption="{classdia-caption} {counter:class}: ",650]
+----
+include::{plantumldir}/NFCCRP/tagobjects.plantuml[]
+----
+
+endif::useCachePlantuml[]
+ifdef::useCachePlantuml[]
+
+.TagObjects
+image::NFCCRP/generated/tagobjects.png[caption="{classdia-caption} {counter:class}: "]
+
+{empty} +
+
+endif::useCachePlantuml[]
+
+// end::SecureMessaging[]

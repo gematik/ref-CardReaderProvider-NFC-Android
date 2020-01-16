@@ -1,0 +1,13 @@
+@startuml
+
+package de.gematik.ti.cardreader.provider.nfc.control {
+
+        class NfcReceiver {
+                {static} - LOG : Logger
+                + onReceive()
+        }
+      }
+
+NfcReceiver -up-|> BroadcastReceiver
+
+@enduml

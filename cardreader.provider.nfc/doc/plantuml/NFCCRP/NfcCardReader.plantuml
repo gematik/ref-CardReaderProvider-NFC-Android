@@ -1,0 +1,26 @@
+@startuml
+
+    package de.gematik.ti.cardreader.provider.nfc.entities {
+      class NfcCardReader {
+                {static} - LOG : Logger
+                - name : String
+                {static} - PROTOCOL_T1 : String
+                - adapter : NfcAdapter
+                - activity : Activity
+                + NfcCardReader()
+                + onTagDiscovered()
+                + initialize()
+                + isInitialized()
+                + connect()
+                + connect()
+                + getName()
+                + isCardPresent()
+                + waitForCardAbsent()
+                + waitForCardPresent()
+      }
+    }
+
+  NfcCardReader -up-|> ICardReader
+  NfcCardReader -up-|> ReaderCallback
+
+@enduml

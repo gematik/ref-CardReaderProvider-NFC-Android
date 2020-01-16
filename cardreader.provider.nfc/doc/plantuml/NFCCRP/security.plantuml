@@ -1,0 +1,65 @@
+@startuml
+
+
+
+  namespace de.gematik.ti.cardreader.provider.nfc {
+    namespace security {
+      class de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging {
+          {static} - BLOCK_SIZE : int
+          {static} - BYTE_MASK : int
+          {static} - BYTE_MASK_FF : int
+          {static} - DECRYPT_MODE : int
+          {static} - DO_81_TAG : int
+          {static} - DO_87_TAG : int
+          {static} - DO_8E_TAG : int
+          {static} - DO_99_TAG : int
+          {static} - ENCRYPT_MODE : int
+          {static} - HEADER_SIZE : int
+          {static} - LENGTH_TAG : int
+          {static} - LOG : Logger
+          {static} - MAC_SIZE : int
+          {static} - MALFORMED_SECURE_MESSAGING_APDU : String
+          {static} - MIN_RESPONSE_SIZE : int
+          {static} - PADDING_INDICATOR : byte[]
+          {static} - SECURE_MESSAGING_COMMAND : byte
+          {static} - STATUS_SIZE : int
+          - dataBytes : byte[]
+          - header : byte[]
+          - le : int
+          - macBytes : byte[]
+          - paceKey : PaceKey
+          - secureMessagingSSC : byte[]
+          - statusBytes : byte[]
+          + SecureMessaging()
+          + decrypt()
+          + encrypt()
+          - checkCommandApduSize()
+          - checkExpectedLength()
+          - checkResponseApduSize()
+          - createDecryptedResponse()
+          - createEncryptedCommand()
+          - encryptData()
+          - getCipher()
+          - getCipherIV()
+          - getResponseObjects()
+          - incrementSSC()
+          - removePaddingIndicator()
+          - setSecureMessagingCommand()
+          - verifyMac()
+      }
+    }
+  }
+  
+
+  de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging o-- de.gematik.ti.cardreader.provider.nfc.security.tagobjects.MacObject : commandMacObject
+  de.gematik.ti.cardreader.provider.nfc.security.SecureMessaging o-- de.gematik.ti.cardreader.provider.nfc.security.tagobjects.MacObject : responseMacObject
+
+
+
+
+
+
+
+
+
+@enduml
