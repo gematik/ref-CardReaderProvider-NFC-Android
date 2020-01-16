@@ -1,0 +1,4 @@
+de.gematik.ti.cardreader.provider.nfc.control
+de.gematik.ti.cardreader.provider.nfc.entities
+de.gematik.ti.cardreader.provider.nfc.security
+de.gematik.ti.cardreader.provider.nfc.security.tagobjects
